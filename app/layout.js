@@ -16,7 +16,9 @@ export default function RootLayout({ children }) {
                 <header>
                     <NavBar />
                 </header>
+                <div style={{marginTop:'4rem'}}>
                 {children}
+                </div>
             </body>
         </html>
     )

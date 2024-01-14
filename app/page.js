@@ -6,6 +6,7 @@ import {
     Grid
 } from '@mui/material'
 import configServ from '@/services/config'
+import TopControl from '@/components/TopControl'
 
 export default function Home() {
     const [itemData, setItemData] = useState({})
@@ -21,7 +22,8 @@ export default function Home() {
     }, [])
 
     return (
-        <main className="flex flex-col items-center justify-between min-h-screen p-24 sm:w-100">
+        <main className="flex flex-col items-center justify-between min-h-screen px-5 pt-5 sm:w-100">
+            <TopControl/>
             <Grid container spacing={2}>
                 {itemData?.data?.map((item, index) => (
                     <Grid key={index} item xs={12} md={4}>

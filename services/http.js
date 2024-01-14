@@ -1,19 +1,19 @@
-
+"use client"
 
 import axios from "axios";
 
 export const appServiceName = 'http://localhost:6969'; 
 
 class RestfulProvider {
-    constructor() {
-        this.setCommonHeaders();
-    }
-    setCommonHeaders = () => {
-        const token = localStorage.getItem("token");
+    // constructor() {
+    //     this.setCommonHeaders();
+    // }
+    // setCommonHeaders = () => {
+    //     const token = localStorage.getItem("token");
 
-        token &&
-            (axios.defaults.headers.common["Authorization"] = `Bearer ${token}`);
-    };
+    //     token &&
+    //         (axios.defaults.headers.common["Authorization"] = `Bearer ${token}`);
+    // };
 
     makeCall = (url, data, axiosMethod) => {
         const header = {
@@ -26,7 +26,7 @@ class RestfulProvider {
         };
 
         if (localStorage.getItem("token")) {
-            this.setCommonHeaders();
+            // this.setCommonHeaders();
         }
 
         return new Promise((resolve, reject) => {
