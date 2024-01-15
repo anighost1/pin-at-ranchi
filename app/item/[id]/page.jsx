@@ -12,20 +12,22 @@ import Image from 'next/image';
 import {
     Box,
     Stack,
+    Chip,
+    Grid,
 } from '@mui/material';
 
 
 
 export default function page({ params }) {
 
-    const [imgData, setImgData] = useState({})
+    const [itemData, setItemData] = useState({})
     const itemId = params.id
 
     const fetchItem = async () => {
         try {
             const result = await configServ.getItemByIdWithImg(itemId)
             console.log(result)
-            setImgData(result)
+            setItemData(result)
         } catch (err) {
             console.log(err)
         }
@@ -36,6 +38,10 @@ export default function page({ params }) {
             fetchItem()
         }
     }, [])
+
+    const showInMap = async () => {
+        window.open(`https://maps.google.com?q=${itemData.longitude},${itemData.latitude}`)
+    }
 
     return (
         <Stack
@@ -65,10 +71,10 @@ export default function page({ params }) {
                     // onSwiper={(swiper) => console.log(swiper)}
                     // onSlideChange={() => console.log('slide change')}
                     style={{
-                        height: '80vh'
+                        height: '90vh'
                     }}
                 >
-                    {imgData?.images?.map((item) => (
+                    {itemData?.images?.map((item) => (
                         <SwiperSlide key={item._id}>
                             <Box >
                                 <Image
@@ -86,13 +92,13 @@ export default function page({ params }) {
                 className={`divider divider-horizontal`}
             />
             <Stack
+                spacing={2}
                 width={{
                     xs: '100%',
                     sm: '40%'
                 }}
                 sx={{
                     p: 2,
-                    // height:'30rem'
                 }}
             >
                 <h1 className='prose'
@@ -101,7 +107,7 @@ export default function page({ params }) {
                         fontSize: '2em'
                     }}
                 >
-                    {imgData.name || "Loading..."}
+                    {itemData.name || "Loading..."}
                 </h1>
                 <h1 className='prose'
                     style={{
@@ -110,13 +116,29 @@ export default function page({ params }) {
                     }}
                 >
                     {`
-                    ${imgData.addressLine1 || ""} 
-                    ${imgData.addressLine2 ? ',' : ''}${imgData.addressLine2 || ""} 
-                    ${imgData.city ? ',' : ''}${imgData.city || ""}
-                    ${imgData.state ? ',' : ''}${imgData.state || ""}
-                    ${imgData.pin ? ',' : ''}${imgData.pin || ""}
+                    ${itemData.addressLine1 || ""} 
+                    ${itemData.addressLine2 ? ',' : ''}${itemData.addressLine2 || ""} 
+                    ${itemData.city ? ',' : ''}${itemData.city || ""}
+                    ${itemData.state ? ',' : ''}${itemData.state || ""}
+                    ${itemData.pin ? ',' : ''}${itemData.pin || ""}
                     `}
                 </h1>
+                <button
+                    className="btn btn-outline max-w-40"
+                    onClick={showInMap}
+                >
+                    Show in Map
+                </button>
+                {itemData.keyword && (
+                    <Grid
+                        container
+                        gap={1}
+                    >
+                        {itemData?.keyword?.map((item, index) => (
+                            <Chip key={index} label={item} variant='outlined' />
+                        ))}
+                    </Grid>
+                )}
             </Stack>
         </Stack>
     )

@@ -1,12 +1,22 @@
+"use client"
+
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 
 
 export default function NavBar() {
+
+    const router = useRouter()
+
+    const goToHome = ()=>{
+        router.push('/')
+    }
+
     return (
         <div className="fixed top-0 z-50 navbar bg-base-100 drop-shadow">
             <div className="flex-1">
                 <Image src={'/locationLogo.svg'} alt="logo" width={35} height={35}/>
-                <a className="text-xl prose btn btn-ghost">Pin at Ranchi</a>
+                <a onClick={goToHome} className="text-xl prose btn btn-ghost">Pin at Ranchi</a>
             </div>
             <div className="flex-none">
                 {/* <div className="dropdown dropdown-end">

@@ -7,6 +7,7 @@ import {
 } from '@mui/material'
 import configServ from '@/services/config'
 import TopControl from '@/components/TopControl'
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Home() {
     const [itemData, setItemData] = useState({})
@@ -23,7 +24,10 @@ export default function Home() {
 
     return (
         <main className="flex flex-col items-center justify-between min-h-screen px-5 pt-5 sm:w-100">
-            <TopControl/>
+            <TopControl />
+            {!itemData.data && (
+               <CircularProgress/>
+            )}
             <Grid container spacing={2}>
                 {itemData?.data?.map((item, index) => (
                     <Grid key={index} item xs={12} md={4}>
