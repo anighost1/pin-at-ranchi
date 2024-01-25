@@ -1,8 +1,9 @@
-"use client"
 
 import axios from "axios";
 
-export const appServiceName = 'http://localhost:6969'; 
+// export const appServiceName = 'http://localhost:6969'; 
+// export const appServiceName = 'https://parserver.onrender.com'; 
+export const appServiceName = process.env.NEXT_PUBLIC_APP_SERVICE_NAME; 
 
 class RestfulProvider {
     // constructor() {
