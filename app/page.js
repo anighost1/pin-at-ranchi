@@ -7,7 +7,7 @@ import {
     Box,
 } from '@mui/material'
 import IconButton, { iconButtonClasses } from '@mui/joy/IconButton';
-import { Button } from '@mui/joy';
+import { Button, Typography } from '@mui/joy';
 import configServ from '@/services/config'
 import TopControl from '@/components/TopControl'
 import CircularProgress from '@mui/material/CircularProgress';
@@ -19,11 +19,20 @@ export default function Home() {
     const [page, setPage] = useState(1)
     const [limit, setLimit] = useState(10)
     const [searchKeyword, setSearchKeyword] = useState('')
+    const [processing, setProcessing] = useState(false)
 
     const fetchItem = async (page = 1, limit = 10, search = searchKeyword) => {
-        const result = await configServ.getItemsWithImg(page, limit, search)
-        console.log(result)
-        setItemData(result)
+        try {
+            setItemData({})
+            setProcessing(true)
+            const result = await configServ.getItemsWithImg(page, limit, search)
+            // console.log(result)
+            setItemData(result)
+            setProcessing(false)
+        } catch (err) {
+            console.log(err)
+            setProcessing(false)
+        }
     }
 
     useEffect(() => {
@@ -60,10 +69,18 @@ export default function Home() {
                 searchKeyword={searchKeyword}
                 setSearchKeyword={setSearchKeyword}
             />
-            {!itemData.data && (
+            {/* {!itemData.data && (
                 <CircularProgress />
+            )} */}
+            {itemData.data?.length === 0 && (
+                <Typography
+                    level='h4'
+                    color='warning'
+                >
+                    No data found
+                </Typography>
             )}
-            {itemData.data === '' && (
+            {processing && (
                 <CircularProgress />
             )}
             <Grid container spacing={2}>
