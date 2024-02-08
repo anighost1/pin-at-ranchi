@@ -7,12 +7,16 @@ import {
     Box,
 } from '@mui/material'
 import IconButton, { iconButtonClasses } from '@mui/joy/IconButton';
-import { Button, Typography } from '@mui/joy';
+import {
+    Button,
+    Typography,
+} from '@mui/joy';
 import configServ from '@/services/config'
 import TopControl from '@/components/TopControl'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import CustomSkeleton from '@/components/CustomSkeleton';
+import ProgressOverlay from '@/components/ProgressOverlay';
 
 export default function Home() {
     const [itemData, setItemData] = useState({})
@@ -20,7 +24,8 @@ export default function Home() {
     const [limit, setLimit] = useState(10)
     const [searchKeyword, setSearchKeyword] = useState('')
     const [processing, setProcessing] = useState(false)
-    const skeletonArray = [1,1,1,1,1,1]
+    const [itemProcessing, setItemProcessing] = useState(false)
+    const skeletonArray = [1, 1, 1, 1, 1, 1]
 
     const fetchItem = async (page = 1, limit = 10, search = searchKeyword) => {
         try {
@@ -70,9 +75,9 @@ export default function Home() {
                 searchKeyword={searchKeyword}
                 setSearchKeyword={setSearchKeyword}
             />
-            {/* {!itemData.data && (
-                <CircularProgress />
-            )} */}
+            {itemProcessing && (
+                <ProgressOverlay />
+            )}
             {itemData.data?.length === 0 && (
                 <Typography
                     level='h4'
@@ -82,19 +87,18 @@ export default function Home() {
                 </Typography>
             )}
             {processing && (
-                // <CircularProgress />
                 <Grid container spacing={2}>
-                {skeletonArray.map((item, index) => (
-                    <Grid key={index} item xs={12} md={4}>
-                        <CustomSkeleton/>
-                    </Grid>
-                ))}
-            </Grid>
+                    {skeletonArray.map((item, index) => (
+                        <Grid key={index} item xs={12} md={4}>
+                            <CustomSkeleton />
+                        </Grid>
+                    ))}
+                </Grid>
             )}
             <Grid container spacing={2}>
                 {itemData?.data?.map((item, index) => (
                     <Grid key={index} item xs={12} md={4}>
-                        <ItemCard data={item} />
+                        <ItemCard data={item} setItemProcessing={setItemProcessing} />
                     </Grid>
                 ))}
             </Grid>
