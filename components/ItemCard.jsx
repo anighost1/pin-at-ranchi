@@ -1,12 +1,14 @@
 import Image from "next/image"
 import { useRouter } from 'next/navigation'
 
-export default function ItemCard({ data }) {
+export default function ItemCard({ data, setItemProcessing }) {
 
     const router = useRouter()
 
     const navigate = () => {
+        setItemProcessing(state => !state)
         router.push(`/item/${data._id}`)
+        setItemProcessing(state => !state)
     }
 
     return (
