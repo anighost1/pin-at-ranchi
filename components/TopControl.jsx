@@ -1,5 +1,15 @@
-import { Box, Stack } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
+
+import {
+    Box,
+    Stack,
+} from '@mui/material'
+
+import {
+    IconButton,
+} from '@mui/joy';
+
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 export default function TopControl({ handleSearch, searchKeyword, setSearchKeyword }) {
 
