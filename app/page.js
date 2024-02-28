@@ -18,6 +18,8 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import CustomSkeleton from '@/components/CustomSkeleton';
 import ProgressOverlay from '@/components/ProgressOverlay';
 
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+
 export default function Home() {
     const [itemData, setItemData] = useState({})
     const [page, setPage] = useState(1)
@@ -68,6 +70,13 @@ export default function Home() {
         }
     }
 
+    const goToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
     return (
         <main className="flex flex-col items-center justify-between min-h-screen px-5 pt-5 sm:w-100">
             <TopControl
@@ -102,7 +111,7 @@ export default function Home() {
                     </Grid>
                 ))}
             </Grid>
-            <Box>
+            <Box width={'100%'}>
                 <div className="divider" />
                 <Box
                     className="Pagination-laptopUp"
@@ -114,6 +123,7 @@ export default function Home() {
                             xs: 'none',
                             md: 'flex',
                         },
+                        px: '10rem'
                     }}
                 >
                     <Button
@@ -150,6 +160,76 @@ export default function Home() {
                         Next
                     </Button>
                 </Box>
+
+                <Box
+                    className="Pagination-mobile"
+                    sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', py: 2 }}
+                >
+                    <IconButton
+                        aria-label="previous page"
+                        variant="outlined"
+                        color="neutral"
+                        size="sm"
+                        onClick={prevPage}
+                    >
+                        <KeyboardArrowLeftIcon />
+                    </IconButton>
+                    <Typography level="body-sm" mx="auto">
+                        {`Page ${itemData.currentPage} of ${itemData.totalPage}`}
+                    </Typography>
+                    <IconButton
+                        aria-label="next page"
+                        variant="outlined"
+                        color="neutral"
+                        size="sm"
+                        onClick={nextPage}
+                    >
+                        <KeyboardArrowRightIcon />
+                    </IconButton>
+                </Box>
+            </Box>
+            {/* <Button
+                display='none'
+                variant="solid"
+                size='lg'
+                className='z-50'
+                sx={{
+                    backgroundColor:'red',
+                    borderRadius: '50px',
+                    position: 'fixed',
+                    bottom: '5rem',
+                    right: '1rem'
+                }}
+            >
+                <KeyboardArrowUpIcon sx={{color:'red'}} />
+            </Button> */}
+            <Box
+                component={'span'}
+                sx={{
+                    backgroundColor: '#333',
+                    borderRadius: '50px',
+                    aspectRatio: 1 / 1,
+                    width: '2.7rem',
+                    display: {
+                        xs: 'flex',
+                        md: 'none'
+                    },
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    position: 'fixed',
+                    bottom: '5rem',
+                    right: '1rem',
+                    cursor: 'pointer',
+                    transition: '100ms',
+                    color: 'white',
+                    boxShadow: 10,
+                    ':hover': {
+                        transform: 'scale(1.05)'
+                    }
+                }}
+                onClick={goToTop}
+            >
+                <KeyboardArrowUpIcon />
             </Box>
         </main>
     )
